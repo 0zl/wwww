@@ -30,6 +30,9 @@ class RDS:
             decode_responses=True
         )
         
+        self.pubsub()
+    
+    def pubsub(self):
         self.pcl = self.client.pubsub()
         self.pcl.subscribe(self.identifier)
         
