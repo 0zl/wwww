@@ -53,8 +53,7 @@ def rds():
     print('rds, wwwww')
     print(f"Startup time: {startup_timer.summary()}.")
 
-    rds = RDS()
-    rds.launch(
+    rds = RDS(
         host=cmd_opts.rds_h,
         port=cmd_opts.rds_p,
         password=cmd_opts.rds_secret,
@@ -62,6 +61,8 @@ def rds():
         mother=cmd_opts.rds_mother,
         root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else ""
     )
+    
+    rds.launch()
 
 def webui():
     from modules.shared_cmd_options import cmd_opts
