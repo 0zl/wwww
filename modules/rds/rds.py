@@ -1,7 +1,13 @@
-import redis
+import io, os, time, datetime, ipaddress, redis
+import modules.shared as shared
+import modules.devices as devices
+
+from modules.shared import opts
+from modules.processing import StableDiffusionProcessingTxt2Img, StableDiffusionProcessingImg2Img, process_images
 
 class RDS:
     client = None
+    pcl = None
     
     host = None
     port = None
@@ -23,3 +29,9 @@ class RDS:
             password=self.password,
             decode_responses=True
         )
+        
+        self.pcl = self.client.pubsub()
+        self.pcl.subscribe(self.identifier)
+        
+        for msg in self.pcl.listen():
+            print(msg)
