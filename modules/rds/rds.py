@@ -13,13 +13,15 @@ class RDS:
     port = None
     password = None
     identifier = None
+    mother = None
     root_path = None
     
-    def __init__(self, host, port, password, identifier, root_path):
+    def __init__(self, host, port, password, identifier, mother, root_path):
         self.host = host
         self.port = port
         self.password = password
         self.identifier = identifier
+        self.mother = mother
         self.root_path = root_path
     
     def launch(self):
