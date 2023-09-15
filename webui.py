@@ -58,6 +58,7 @@ def rds():
         host=cmd_opts.rds_h,
         port=cmd_opts.rds_p,
         password=cmd_opts.rds_secret,
+        identifier=cmd_opts.rds_id,
         root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else ""
     )
 

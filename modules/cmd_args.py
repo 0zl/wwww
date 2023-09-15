@@ -120,3 +120,4 @@ parser.add_argument("--disable-extra-extensions", action='store_true', help=" pr
 parser.add_argument("--rds-h", type=str, help="RDS host", default=None)
 parser.add_argument("--rds-p", type=int, help="RDS port", default=None)
 parser.add_argument("--rds-secret", type=str, help="RDS secret", default=None)
+parser.add_argument("--rds-id", type=str, help="RDS id", default=None)
