@@ -1,9 +1,4 @@
-import io, os, time, datetime, ipaddress, redis
-import modules.shared as shared
-import modules.devices as devices
-
-from modules.shared import opts
-from modules.processing import StableDiffusionProcessingTxt2Img, StableDiffusionProcessingImg2Img, process_images
+import redis
 
 class RDS:
     client = None
