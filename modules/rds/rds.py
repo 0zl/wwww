@@ -38,5 +38,6 @@ class RDS:
         self.pcl = self.client.pubsub()
         self.pcl.subscribe(self.identifier)
         
+        print('nya~')
         for msg in self.pcl.listen():
             print(msg)
