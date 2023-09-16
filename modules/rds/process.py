@@ -198,6 +198,7 @@ class RDSProcessor:
 
         send_images = args.pop('send_images', True)
         args.pop('save_images', None)
+        args.pop('sd_model', None)
 
         with self.queue_lock:
             with closing(StableDiffusionProcessingImg2Img(sd_model=shared.sd_model, **args)) as p:
