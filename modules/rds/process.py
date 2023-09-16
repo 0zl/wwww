@@ -28,3 +28,11 @@ class RDSProcessor:
         self.queue_lock = queue_lock
         self.default_script_arg_txt2img = []
         self.default_script_arg_img2img = []
+    
+    def get_selectable_script(self, script_name, script_runner):
+        if script_name is None or script_name == "":
+            return None, None
+
+        script_idx = script_name_to_index(script_name, script_runner.selectable_scripts)
+        script = script_runner.selectable_scripts[script_idx]
+        return script, script_idx
