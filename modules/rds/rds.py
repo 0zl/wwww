@@ -5,11 +5,15 @@ from modules.rds.process import RDSProcessor
 
 processor = RDSProcessor(queue_lock)
 
-available_tasks = {
-    'txt2img': processor.text2imgapi,
-    'img2img': processor.img2imgapi,
-    'memory': processor.get_memory
-}
+available_tasks = [
+    { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory }
+]
+
+def get_task(task_name):
+    for task in available_tasks:
+        if task['task'] == task_name:
+            return task
+    return None
 
 class RDS:
     client = None
@@ -54,19 +58,24 @@ class RDS:
                 continue
             
             data = json.loads(msg['data'])
-            task = data['data']['task']
+            task_name = data['data']['task']
             task_args = data['data']['args']
             requestId = data['requestId']
             
-            print(f'task: {task}, args: {task_args}, requestId: {requestId}')
+            print(f'task: {task_name}, args: {task_args}, requestId: {requestId}')
             
-            if task not in available_tasks:
+            task = get_task(task_name)
+            if task is None:
+                print('task not found')
                 continue
             
             try:
-                result = available_tasks[task](task_args)
+                if task['arg_pass']:
+                    result = task['method'](task_args)
+                else:
+                    result = task['method']()
+                
                 print(result)
             except Exception as e:
                 print(e)
-                continue
             
