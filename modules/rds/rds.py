@@ -15,6 +15,10 @@ def txt2img(args):
     parameters = models.StableDiffusionTxt2ImgProcessingAPI(**args)
     return processor.text2imgapi(parameters)
 
+def img2img(args):
+    parameters = models.StableDiffusionImg2ImgProcessingAPI(**args)
+    return processor.img2imgapi(parameters)
+
 available_tasks = [
     { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory },
     { 'task': 'get_config', 'arg_pass': False, 'method': processor.get_config },
@@ -28,7 +32,7 @@ available_tasks = [
     { 'task': 'kill', 'arg_pass': False, 'method': processor.kill },
     { 'task': 'restart', 'arg_pass': False, 'method': processor.restart },
     { 'task': 'txt2img', 'arg_pass': True, 'method': txt2img },
-    { 'task': 'img2img', 'arg_pass': True, 'method': processor.img2imgapi },
+    { 'task': 'img2img', 'arg_pass': True, 'method': img2img },
     { 'task': 'ping', 'arg_pass': False, 'method': ping_me },
 ]
 
