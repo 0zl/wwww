@@ -49,7 +49,7 @@ class RDS:
     def publish_data(self, channel, data, success, requestId=None):
         n_data = { success: success, **data }
         self.client.publish(
-            channel, rds_utils.serialize(self.identifier, n_data, callbackId=requestId)
+            channel, rds_utils.serialize(self.identifier, n_data, requestId, requestId)
         )
         
     def pubsub(self):
