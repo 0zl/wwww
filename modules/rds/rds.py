@@ -1,5 +1,7 @@
 import redis, json
+import modules.rds.utils as rds_utils
 
+from redis.client import PubSub
 from modules.call_queue import queue_lock
 from modules.rds.process import RDSProcessor
 
@@ -17,7 +19,7 @@ def get_task(task_name):
 
 class RDS:
     client = None
-    pcl = None
+    pcl: PubSub = None
     
     host = None
     port = None
@@ -44,6 +46,12 @@ class RDS:
         
         self.pubsub()
     
+    def publish_data(self, channel, data, success, requestId=None):
+        n_data = { success: success, **data }
+        self.client.publish(
+            channel, rds_utils.serialize(self.identifier, n_data, requestId)
+        )
+        
     def pubsub(self):
         self.pcl = self.client.pubsub()
         self.pcl.subscribe(self.identifier)
@@ -58,11 +66,12 @@ class RDS:
                 continue
             
             data = json.loads(msg['data'])
+            chan_name = data['from']
             task_name = data['data']['task']
             task_args = data['data']['args']
             requestId = data['requestId']
             
-            print(f'task: {task_name}, args: {task_args}, requestId: {requestId}')
+            print(f'task: {task_name}, args: {task_args}, requestId: {requestId}, channel: {chan_name}')
             
             task = get_task(task_name)
             if task is None:
@@ -75,7 +84,10 @@ class RDS:
                 else:
                     result = task['method']()
                 
-                print(result)
+                if requestId:
+                    self.publish_data(chan_name, result, True, requestId)
             except Exception as e:
                 print(e)
+                if requestId:
+                    self.publish_data(chan_name, { 'error': str(e) }, True, requestId)
             

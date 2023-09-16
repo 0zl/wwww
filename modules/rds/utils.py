@@ -1,4 +1,4 @@
-import base64
+import base64, json, time
 from PIL import Image, PngImagePlugin
 from io import BytesIO
 
@@ -25,3 +25,25 @@ def encode_pil_to_base64(image):
         bytes_data = output_bytes.getvalue()
 
     return base64.b64encode(bytes_data)
+
+def serialize(identifier, data, requestId=None, callbackId=None):
+    """
+    Serializes the given data to JSON.
+
+    Args:
+        identifier: The identifier.
+        data: The data to serialize.
+        requestId: The request ID.
+        callbackId: The callback ID.
+
+    Returns:
+        A JSON string.
+    """
+
+    return json.dumps({
+        "ts": int(round(time.time() * 1000)),
+        "from": identifier,
+        "data": data,
+        "callbackId": callbackId,
+        "requestId": requestId
+    })
