@@ -337,8 +337,6 @@ class Api:
         return script_args
 
     def text2imgapi(self, txt2imgreq: models.StableDiffusionTxt2ImgProcessingAPI):
-        print(txt2imgreq)
-        
         script_runner = scripts.scripts_txt2img
         if not script_runner.scripts:
             script_runner.initialize_scripts(False)
