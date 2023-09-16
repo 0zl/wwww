@@ -44,11 +44,8 @@ def api_only():
         root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else ""
     )
 
-
-from modules.rds.rds import RDS
-rds_instance: RDS = None
-
 def rds():
+    from modules.rds.rds import RDS
     from modules.shared_cmd_options import cmd_opts
     
     initialize.initialize()
@@ -56,7 +53,7 @@ def rds():
     print('rds, wwwww')
     print(f"Startup time: {startup_timer.summary()}.")
 
-    rds_instance = RDS(
+    rds = RDS(
         host=cmd_opts.rds_h,
         port=cmd_opts.rds_p,
         password=cmd_opts.rds_secret,
@@ -65,7 +62,7 @@ def rds():
         root_path=f"/{cmd_opts.subpath}" if cmd_opts.subpath else ""
     )
     
-    rds_instance.launch()
+    rds.launch()
 
 def webui():
     from modules.shared_cmd_options import cmd_opts
