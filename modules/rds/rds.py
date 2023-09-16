@@ -90,7 +90,7 @@ class RDS:
             
             # 'global' channel
             if msg['channel'] == self.global_chan:
-                self.publish_data({ 'id': self.identifier }, True, requestId, chan_name)
+                self.publish_data({ 'id': self.identifier }, True, channel=chan_name)
                 continue
             
             task_name = data['data']['task']
