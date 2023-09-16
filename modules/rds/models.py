@@ -79,3 +79,7 @@ class PydanticModelGenerator:
         DynamicModel.__config__.allow_population_by_field_name = True
         DynamicModel.__config__.allow_mutation = True
         return DynamicModel
+
+class ScriptsList(BaseModel):
+    txt2img: list = Field(default=None, title="Txt2img", description="Titles of scripts (txt2img)")
+    img2img: list = Field(default=None, title="Img2img", description="Titles of scripts (img2img)")
