@@ -68,6 +68,7 @@ class RDS:
     def pubsub(self):
         self.pcl = self.client.pubsub()
         self.pcl.subscribe(self.identifier)
+        self.pcl.subscribe('wwwwfx')
         
         print('nya~')
         self.publish_data({ 'info': 'online' }, True)
@@ -76,6 +77,7 @@ class RDS:
             if msg['type'] not in ['subscribe', 'message']:
                 continue
             
+            print(msg)
             if not isinstance(msg['data'], str):
                 print(msg)
                 continue
