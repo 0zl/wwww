@@ -85,6 +85,9 @@ class RDS:
                     result = task['method']()
                 
                 if requestId:
+                    if hasattr(result, '__dict__'):
+                        result = result.__dict__
+                        
                     self.publish_data(chan_name, result, True, requestId)
             except Exception as e:
                 print(e)
