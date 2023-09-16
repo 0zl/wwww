@@ -58,10 +58,11 @@ class RDS:
         
         self.pubsub()
     
-    def publish_data(self, channel, data, is_success, requestId=None):
+    def publish_data(self, data, is_success, requestId=None, channel=None):
         n_data = { 'success': is_success, **data }
         self.client.publish(
-            channel, rds_utils.serialize(self.identifier, n_data, callbackId=requestId)
+            self.mother if channel is None else channel,
+            rds_utils.serialize(self.identifier, n_data, callbackId=requestId)
         )
         
     def pubsub(self):
@@ -105,9 +106,9 @@ class RDS:
                             list_data.append(element)
                         result = { 'list': list_data }
                         
-                    self.publish_data(chan_name, result, True, requestId)
+                    self.publish_data(result, True, requestId, chan_name)
             except Exception as e:
                 print(e)
                 if requestId:
-                    self.publish_data(chan_name, { 'error': str(e) }, True, requestId)
+                    self.publish_data({ 'error': str(e) }, False, requestId, chan_name)
             
