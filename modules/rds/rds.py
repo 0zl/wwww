@@ -1,5 +1,6 @@
 import redis, json
 import modules.rds.utils as rds_utils
+import modules.rds.models as models
 
 from redis.client import PubSub
 from modules.call_queue import queue_lock
@@ -9,6 +10,12 @@ processor = RDSProcessor(queue_lock)
 
 def ping_me():
     return { 'info': 'nya~' }
+
+def txt2img(args):
+    parameters = models.StableDiffusionTxt2ImgProcessingAPI()
+    print(parameters)
+    
+    return { 'info': 'test' }
 
 available_tasks = [
     { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory },
@@ -22,7 +29,7 @@ available_tasks = [
     { 'task': 'refresh_vae', 'arg_pass': False, 'method': processor.refresh_vae },
     { 'task': 'kill', 'arg_pass': False, 'method': processor.kill },
     { 'task': 'restart', 'arg_pass': False, 'method': processor.restart },
-    { 'task': 'txt2img', 'arg_pass': True, 'method': processor.text2imgapi },
+    { 'task': 'txt2img', 'arg_pass': True, 'method': txt2img },
     { 'task': 'img2img', 'arg_pass': True, 'method': processor.img2imgapi },
     { 'task': 'ping', 'arg_pass': False, 'method': ping_me },
 ]
