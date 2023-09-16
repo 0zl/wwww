@@ -12,7 +12,7 @@ def ping_me():
     return { 'info': 'nya~' }
 
 def txt2img(args):
-    parameters = models.StableDiffusionTxt2ImgProcessingAPI()
+    parameters = models.StableDiffusionTxt2ImgProcessingAPI(**args)
     print(parameters)
     
     return { 'info': 'test' }
