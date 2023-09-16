@@ -8,7 +8,7 @@ from modules.rds.process import RDSProcessor
 processor = RDSProcessor(queue_lock)
 
 def ping_me():
-    return 'nya~'
+    return { 'info': 'nya~' }
 
 available_tasks = [
     { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory },
