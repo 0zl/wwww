@@ -7,6 +7,9 @@ from modules.rds.process import RDSProcessor
 
 processor = RDSProcessor(queue_lock)
 
+def ping_me():
+    return 'nya~'
+
 available_tasks = [
     { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory },
     { 'task': 'get_config', 'arg_pass': False, 'method': processor.get_config },
@@ -20,7 +23,8 @@ available_tasks = [
     { 'task': 'kill', 'arg_pass': False, 'method': processor.kill },
     { 'task': 'restart', 'arg_pass': False, 'method': processor.restart },
     { 'task': 'txt2img', 'arg_pass': True, 'method': processor.text2imgapi },
-    { 'task': 'img2img', 'arg_pass': True, 'method': processor.img2imgapi }
+    { 'task': 'img2img', 'arg_pass': True, 'method': processor.img2imgapi },
+    { 'task': 'ping', 'arg_pass': False, 'method': ping_me },
 ]
 
 def get_task(task_name):
