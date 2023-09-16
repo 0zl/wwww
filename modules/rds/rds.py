@@ -1,4 +1,7 @@
-import redis
+import redis, json
+
+from modules.call_queue import queue_lock
+from modules.rds.process import RDSProcessor
 
 class RDS:
     client = None
@@ -11,6 +14,8 @@ class RDS:
     mother = None # ayooo
     root_path = None
     
+    Processor: RDSProcessor = None
+    
     def __init__(self, host, port, password, identifier, mother, root_path):
         self.host = host
         self.port = port
@@ -18,6 +23,7 @@ class RDS:
         self.identifier = identifier
         self.mother = mother
         self.root_path = root_path
+        self.Processor = RDSProcessor(queue_lock)
     
     def launch(self):
         self.client = redis.Redis(
@@ -35,4 +41,9 @@ class RDS:
         
         print('nya~')
         for msg in self.pcl.listen():
-            print(msg)
+            if msg['type'] not in ['subscribe', 'message']:
+                continue
+            
+            data = json.loads(msg['data'])
+            print(data)
+            
