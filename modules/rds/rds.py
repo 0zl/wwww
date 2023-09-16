@@ -8,7 +8,19 @@ from modules.rds.process import RDSProcessor
 processor = RDSProcessor(queue_lock)
 
 available_tasks = [
-    { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory }
+    { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory },
+    { 'task': 'get_config', 'arg_pass': False, 'method': processor.get_config },
+    { 'task': 'set_config', 'arg_pass': True, 'method': processor.set_config },
+    { 'task': 'get_cmd_flags', 'arg_pass': False, 'method': processor.get_cmd_flags },
+    { 'task': 'get_samplers', 'arg_pass': False, 'method': processor.get_samplers },
+    { 'task': 'get_sd_models', 'arg_pass': False, 'method': processor.get_sd_models },
+    { 'task': 'get_sd_vaes', 'arg_pass': False, 'method': processor.get_sd_vaes },
+    { 'task': 'refresh_checkpoints', 'arg_pass': False, 'method': processor.refresh_checkpoints },
+    { 'task': 'refresh_vae', 'arg_pass': False, 'method': processor.refresh_vae },
+    { 'task': 'kill', 'arg_pass': False, 'method': processor.kill },
+    { 'task': 'restart', 'arg_pass': False, 'method': processor.restart },
+    { 'task': 'txt2img', 'arg_pass': True, 'method': processor.text2imgapi },
+    { 'task': 'img2img', 'arg_pass': True, 'method': processor.img2imgapi }
 ]
 
 def get_task(task_name):
@@ -71,7 +83,7 @@ class RDS:
             task_args = data['data']['args']
             requestId = data['requestId']
             
-            print(f'task: {task_name}, args: {task_args}, requestId: {requestId}, channel: {chan_name}')
+            print(f'requestId: {requestId}, channel: {chan_name}')
             
             task = get_task(task_name)
             if task is None:
