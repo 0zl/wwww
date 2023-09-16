@@ -39,6 +39,7 @@ class RDS:
     identifier = None
     mother = None # ayooo
     root_path = None
+    global_chan = 'wwwwfx'
     
     def __init__(self, host, port, password, identifier, mother, root_path):
         self.host = host
@@ -68,7 +69,7 @@ class RDS:
     def pubsub(self):
         self.pcl = self.client.pubsub()
         self.pcl.subscribe(self.identifier)
-        self.pcl.subscribe('wwwwfx')
+        self.pcl.subscribe(self.global_chan)
         
         print('nya~')
         self.publish_data({ 'info': 'online' }, True)
@@ -77,18 +78,23 @@ class RDS:
             if msg['type'] not in ['subscribe', 'message']:
                 continue
             
-            print(msg)
             if not isinstance(msg['data'], str):
                 print(msg)
                 continue
             
             data = json.loads(msg['data'])
             chan_name = data['from']
-            task_name = data['data']['task']
-            task_args = data['data']['args']
             requestId = data['requestId']
             
             print(f'requestId: {requestId}, channel: {chan_name}')
+            
+            # 'global' channel
+            if msg['channel'] == self.global_chan:
+                self.publish_data({ 'id': self.identifier }, True, requestId, chan_name)
+                continue
+            
+            task_name = data['data']['task']
+            task_args = data['data']['args']
             
             task = get_task(task_name)
             if task is None:
