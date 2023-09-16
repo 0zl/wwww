@@ -3,6 +3,8 @@ import redis, json
 from modules.call_queue import queue_lock
 from modules.rds.process import RDSProcessor
 
+processor = RDSProcessor(queue_lock)
+
 class RDS:
     client = None
     pcl = None
@@ -14,8 +16,6 @@ class RDS:
     mother = None # ayooo
     root_path = None
     
-    Processor: RDSProcessor = None
-    
     def __init__(self, host, port, password, identifier, mother, root_path):
         self.host = host
         self.port = port
@@ -23,7 +23,6 @@ class RDS:
         self.identifier = identifier
         self.mother = mother
         self.root_path = root_path
-        self.Processor = RDSProcessor(queue_lock)
     
     def launch(self):
         self.client = redis.Redis(
