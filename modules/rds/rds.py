@@ -43,6 +43,10 @@ class RDS:
             if msg['type'] not in ['subscribe', 'message']:
                 continue
             
+            if not isinstance(msg['data'], str):
+                print(msg)
+                continue
+            
             data = json.loads(msg['data'])
             print(data)
             
