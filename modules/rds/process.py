@@ -129,7 +129,6 @@ class RDSProcessor:
             populate.sampler_index = None  # prevent a warning later on
 
         args = vars(populate)
-        print(args)
         args.pop('script_name', None)
         args.pop('script_args', None) # will refeed them to the pipeline directly after initializing them
         args.pop('alwayson_scripts', None)
