@@ -100,10 +100,10 @@ class RDS:
                     if hasattr(result, '__dict__'):
                         result = result.__dict__
                     elif type(result) is list:
-                        dict_data = {}
+                        list_data = []
                         for index, element in enumerate(result):
-                            dict_data[index] = element
-                        result = dict_data
+                            list_data.append(element)
+                        result = { 'list': list_data }
                         
                     self.publish_data(chan_name, result, True, requestId)
             except Exception as e:
