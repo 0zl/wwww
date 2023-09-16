@@ -105,24 +105,40 @@ class RDS:
                 print('task not found')
                 continue
             
-            try:
-                if task['arg_pass']:
-                    result = task['method'](task_args)
-                else:
-                    result = task['method']()
+            if task['arg_pass']:
+                result = task['method'](task_args)
+            else:
+                result = task['method']()
                 
-                if requestId:
-                    if hasattr(result, '__dict__'):
-                        result = result.__dict__
-                    elif type(result) is list:
-                        list_data = []
-                        for index, element in enumerate(result):
-                            list_data.append(element)
-                        result = { 'list': list_data }
+            if requestId:
+                if hasattr(result, '__dict__'):
+                    result = result.__dict__
+                elif type(result) is list:
+                    list_data = []
+                    for index, element in enumerate(result):
+                        list_data.append(element)
+                    result = { 'list': list_data }
                         
-                    self.publish_data(result, True, requestId, chan_name)
-            except Exception as e:
-                print(e)
-                if requestId:
-                    self.publish_data({ 'error': str(e) }, False, requestId, chan_name)
+                self.publish_data(result, True, requestId, chan_name)
+            
+            # try:
+            #     if task['arg_pass']:
+            #         result = task['method'](task_args)
+            #     else:
+            #         result = task['method']()
+                
+            #     if requestId:
+            #         if hasattr(result, '__dict__'):
+            #             result = result.__dict__
+            #         elif type(result) is list:
+            #             list_data = []
+            #             for index, element in enumerate(result):
+            #                 list_data.append(element)
+            #             result = { 'list': list_data }
+                        
+            #         self.publish_data(result, True, requestId, chan_name)
+            # except Exception as e:
+            #     print(e)
+            #     if requestId:
+            #         self.publish_data({ 'error': str(e) }, False, requestId, chan_name)
             
