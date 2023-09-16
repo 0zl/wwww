@@ -70,6 +70,8 @@ class RDS:
         self.pcl.subscribe(self.identifier)
         
         print('nya~')
+        self.publish_data({ 'info': 'online' }, True)
+        
         for msg in self.pcl.listen():
             if msg['type'] not in ['subscribe', 'message']:
                 continue
