@@ -46,8 +46,8 @@ class RDS:
         
         self.pubsub()
     
-    def publish_data(self, channel, data, success, requestId=None):
-        n_data = { success: success, **data }
+    def publish_data(self, channel, data, is_success, requestId=None):
+        n_data = { 'success': is_success, **data }
         self.client.publish(
             channel, rds_utils.serialize(self.identifier, n_data, callbackId=requestId)
         )
