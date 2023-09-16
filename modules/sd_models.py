@@ -655,7 +655,8 @@ def load_model(checkpoint_info=None, already_loaded_state_dict=None):
     # rds info
     from webui import rds_instance
     if rds_instance is not None:
-        rds_instance.publish_data('model_loaded', True)
+        rds_instance.publish_data({ 'info': 'model_loaded' }, True)
+        print(f'meow {rds_instance}')
     
     return sd_model
 
