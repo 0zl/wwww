@@ -13,9 +13,7 @@ def ping_me():
 
 def txt2img(args):
     parameters = models.StableDiffusionTxt2ImgProcessingAPI(**args)
-    print(parameters)
-    
-    return { 'info': 'test' }
+    return processor.text2imgapi(parameters)
 
 available_tasks = [
     { 'task': 'memory', 'arg_pass': False, 'method': processor.get_memory },
