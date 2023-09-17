@@ -80,7 +80,7 @@ class RDSClient:
             if method == 'GET':
                 r = requests.get(url, params=params)
             elif method == 'POST':
-                r = requests.post(url, data=params)
+                r = requests.post(url, json=params)
             else:
                 r = requests.get(url, params=params)
             
