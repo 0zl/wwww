@@ -14,10 +14,13 @@ initialize.imports()
 
 initialize.check_versions()
 
+
 # RDS
+import threading
 from modules.rds.rds_host_only import RDSClient
 rdsx = RDSClient()
-rdsx.launch()
+rdst = threading.Thread(target=rdsx.launch)
+rdst.start()
 
 
 def create_api(app):
