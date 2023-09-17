@@ -91,7 +91,8 @@ class RDSClient:
         print(f'chan_name: {chan_name}, requestId: {request_id}')
         
     def handle_global_call(self, msg):
-        if msg['channel'] is not self.global_chan:
+        print(msg)
+        if msg['channel'] != self.global_chan:
             return False
 
         self.ping_status()
