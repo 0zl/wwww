@@ -1,4 +1,4 @@
-import redis, json, requests, time
+import redis, json, requests, time, random
 from redis.client import PubSub
 from modules.shared_cmd_options import cmd_opts
 from modules import shared
@@ -67,6 +67,7 @@ class RDSClient:
             else:
                 status = 'booting'
         
+        print(f'sequence {random.randrange(0, 10000000)}...')
         self.send_data({
             'id': self.identifier,
             'ts': self.ts_started,
