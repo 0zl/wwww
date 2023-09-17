@@ -70,7 +70,8 @@ class RDSClient:
         self.send_data({
             'id': self.identifier,
             'ts': self.ts_started,
-            'status': status
+            'status': status,
+            'busy_queue': shared.state.job_count
         }, channel=channel)
     
     def request_api(self, task, params, method, chan_name, request_id):
