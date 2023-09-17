@@ -46,7 +46,7 @@ class RDSClient:
             for i, e in enumerate(data):
                 list_data.append(e)
             data = { 'list': list_data }
-        else:
+        elif isinstance(data, str):
             data = { 'info': data }
         
         n_data = { 'success': success, **data }
