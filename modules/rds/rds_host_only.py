@@ -76,17 +76,26 @@ class RDSClient:
     def request_api(self, task, params, method, chan_name, request_id):
         url = f'http://127.0.0.1:{cmd_opts.port}/sdapi/v1{task}'
 
-        try:
-            r = requests(url, json=params, method=method)
+        r = requests(url, json=params, method=method)
             
-            if r.status_code == 200:
-                data = r.json()
-                self.send_data(data, True, request_id, chan_name)
-            else:
-                data = r.text()
-                self.send_data(data, False, request_id, chan_name)
-        except Exception as e:
-            self.send_data(str(e), False, request_id, chan_name)
+        if r.status_code == 200:
+            data = r.json()
+            self.send_data(data, True, request_id, chan_name)
+        else:
+            data = r.text()
+            self.send_data(data, False, request_id, chan_name)
+
+        # try:
+        #     r = requests(url, json=params, method=method)
+            
+        #     if r.status_code == 200:
+        #         data = r.json()
+        #         self.send_data(data, True, request_id, chan_name)
+        #     else:
+        #         data = r.text()
+        #         self.send_data(data, False, request_id, chan_name)
+        # except Exception as e:
+        #     self.send_data(str(e), False, request_id, chan_name)
 
         print(f'chan_name: {chan_name}, requestId: {request_id}')
         
