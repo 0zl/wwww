@@ -71,7 +71,7 @@ class RDSClient:
             'id': self.identifier,
             'ts': self.ts_started,
             'status': status
-        }, channel=self.global_chan if channel is None else channel)
+        }, channel=channel)
     
     def request_api(self, task, params, chan_name, request_id):
         url = f'http://127.0.0.1:{cmd_opts.port}/sdapi/v1{task}'
@@ -96,7 +96,6 @@ class RDSClient:
             return False
 
         self.ping_status()
-        
         return True
 
     def handle_tasks(self, msg):
