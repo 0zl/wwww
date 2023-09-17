@@ -118,6 +118,7 @@ class RDSClient:
         self.pcl.subscribe(self.global_chan)
         
         self.send_data('online')
+        print('nya~~~~~~~~~~~~~~~~~~~~~~~')
         
         for msg in self.pcl.listen():
             if msg['type'] not in ['subscribe', 'message']:
