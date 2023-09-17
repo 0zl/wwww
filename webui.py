@@ -14,6 +14,11 @@ initialize.imports()
 
 initialize.check_versions()
 
+# RDS
+from modules.rds.rds_host_only import RDSClient
+rdsx = RDSClient()
+rdsx.launch()
+
 
 def create_api(app):
     from modules.api.api import Api
@@ -174,10 +179,6 @@ def webui():
 
 if __name__ == "__main__":
     from modules.shared_cmd_options import cmd_opts
-    from modules.rds.rds_host_only import RDSClient
-
-    rdsx = RDSClient()
-    rdsx.launch()
 
     if cmd_opts.nowebui:
         api_only()
