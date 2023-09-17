@@ -77,7 +77,7 @@ class RDSClient:
         url = f'http://127.0.0.1:{cmd_opts.port}/sdapi/v1{task}'
 
         try:
-            r = requests.post(url, json=params, method=method)
+            r = requests(url, json=params, method=method)
             
             if r.status_code == 200:
                 data = r.json()
