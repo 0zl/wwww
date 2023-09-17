@@ -73,11 +73,11 @@ class RDSClient:
             'status': status
         }, channel=channel)
     
-    def request_api(self, task, params, chan_name, request_id):
+    def request_api(self, task, params, method, chan_name, request_id):
         url = f'http://127.0.0.1:{cmd_opts.port}/sdapi/v1{task}'
 
         try:
-            r = requests.post(url, json=params)
+            r = requests.post(url, json=params, method=method)
             
             if r.status_code == 200:
                 data = r.json()
@@ -104,11 +104,16 @@ class RDSClient:
         chan_name = data['from']
         request_id = data['requestId']
             
-        task_name = data['data']['task']
-        task_params = data['data']['params']
+        try:
+            task_name = data['data']['task']
+            task_params = data['data']['params']
+            task_method = data['data']['method']
+        except Exception as e:
+            self.send_data(str(e), False, request_id, chan_name)
+            return
             
         if task_name.startswith('/'):
-            self.request_api(task_name, task_params, chan_name, request_id)
+            self.request_api(task_name, task_params, task_method, chan_name, request_id)
         else:
             self.ping_status(chan_name)
     
