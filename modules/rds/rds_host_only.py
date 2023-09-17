@@ -93,7 +93,7 @@ class RDSClient:
         except Exception as e:
             self.send_data(str(e), False, request_id, chan_name)
 
-        print(f'chan_name: {chan_name}, requestId: {request_id}')
+        print(f'chan_name: {chan_name}, rid: {request_id}')
         
     def handle_global_call(self, msg):
         if msg['channel'] != self.global_chan:
