@@ -41,6 +41,8 @@ restricted_opts = None
 
 sd_model: sd_models_types.WebuiSdModel = None
 
+is_model_ready = False
+
 settings_components = None
 """assinged from ui.py, a mapping on setting names to gradio components repsponsible for those settings"""
 
