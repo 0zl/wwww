@@ -19,7 +19,7 @@ initialize.check_versions()
 import threading
 from modules.rds.rds_host_only import RDSClient
 rdsx = RDSClient()
-rdst = threading.Thread(target=rdsx.launch)
+rdst = threading.Thread(target=rdsx.launch, daemon=True)
 rdst.start()
 
 
