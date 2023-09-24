@@ -78,19 +78,21 @@ class RDSClient:
         url = f'http://127.0.0.1:{cmd_opts.port}/sdapi/v1{task}'
 
         try:
-            if method == 'GET':
-                r = requests.get(url, params=params)
-            elif method == 'POST':
-                r = requests.post(url, json=params)
+            data_api = {}
+            if method == 'POST':
+                data_api = { 'json': params }
             else:
-                r = requests.get(url, params=params)
+                data_api = { 'params': params }
             
-            if r.status_code == 200:
-                data = r.json()
-                await self.send_data(data, True, request_id, chan_name)
-            else:
-                data = r.text()
-                await self.send_data(data, False, request_id, chan_name)
+            async with aiohttp.ClientSession() as session:
+                async with session.request(method, url, **data_api) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        await self.send_data(data, True, request_id, chan_name)
+                    else:
+                        data = await resp.text()
+                        await self.send_data(data, False, request_id, chan_name)
+        
         except Exception as e:
             await self.send_data(str(e), False, request_id, chan_name)
 
