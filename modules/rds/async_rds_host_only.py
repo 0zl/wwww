@@ -87,12 +87,12 @@ class RDSClient:
             
             if r.status_code == 200:
                 data = r.json()
-                self.send_data(data, True, request_id, chan_name)
+                await self.send_data(data, True, request_id, chan_name)
             else:
                 data = r.text()
-                self.send_data(data, False, request_id, chan_name)
+                await self.send_data(data, False, request_id, chan_name)
         except Exception as e:
-            self.send_data(str(e), False, request_id, chan_name)
+            await self.send_data(str(e), False, request_id, chan_name)
 
         print(f'chan_name: {chan_name}, rid: {request_id}')
     
