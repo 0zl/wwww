@@ -155,6 +155,5 @@ class RDSClient:
     def launch_thread(self):
         print('evt loop thread - w4 - rd')
         loop = asyncio.get_event_loop()
-        loop.run
         loop.run_until_complete(self.launch_async())
         # loop.close() idk?
