@@ -31,3 +31,4 @@ torchsde==0.2.5
 transformers==4.30.2
 redis==5.0.0
 aioredis==2.0.1
+aiohttp==3.8.5
