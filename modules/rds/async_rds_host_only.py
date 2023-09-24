@@ -1,4 +1,4 @@
-import asyncio, aioredis, aiohttp, json, time, random, requests
+import asyncio, aioredis, aiohttp, json, time, random
 from aioredis.client import PubSub
 from modules.shared_cmd_options import cmd_opts
 from modules import shared
@@ -48,7 +48,7 @@ class RDSClient:
         )
         
     async def ping_status(self, channel=None):
-        print('w4 - gc ping')
+        print(f'w4 - gc ping - {random.randrange(0, 10000000)}')
         
         url = f'http://127.0.0.1:{cmd_opts.port}'
         async with aiohttp.ClientSession() as session:
