@@ -52,14 +52,20 @@ class RDSClient:
         
         url = f'http://127.0.0.1:{cmd_opts.port}'
         async with aiohttp.ClientSession() as session:
-            async with session.head(url) as resp:
-                if resp.status == 200:
-                    status = 'online'
-                else:
-                    if shared.is_model_ready:
-                        status = 'offline'
+            try:
+                async with session.head(url) as resp:
+                    if resp.status == 200:
+                        status = 'online'
                     else:
-                        status = 'booting'
+                        if shared.is_model_ready:
+                            status = 'offline'
+                        else:
+                            status = 'booting'
+            except aiohttp.ClientConnectionError:
+                if shared.is_model_ready:
+                    status = 'offline'
+                else:
+                    status = 'booting'
                         
         await self.send_data({
             'id': self.identifier,
@@ -149,5 +155,6 @@ class RDSClient:
     def launch_thread(self):
         print('evt loop thread - w4 - rd')
         loop = asyncio.get_event_loop()
+        loop.run
         loop.run_until_complete(self.launch_async())
         # loop.close() idk?
