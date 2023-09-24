@@ -120,6 +120,10 @@ class RDSClient:
         if msg['type'] not in ['subscribe', 'message']:
             return
         
+        if not isinstance(msg['data'], str):
+            print(msg)
+            return
+        
         if await self.handle_global_call(msg):
             return
         
