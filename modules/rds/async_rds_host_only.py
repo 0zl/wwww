@@ -79,11 +79,11 @@ class RDSClient:
 
         try:
             if method == 'GET':
-                r = await requests.get(url, params=params)
+                r = requests.get(url, params=params)
             elif method == 'POST':
-                r = await requests.post(url, json=params)
+                r = requests.post(url, json=params)
             else:
-                r = await requests.get(url, params=params)
+                r = requests.get(url, params=params)
             
             if r.status_code == 200:
                 data = r.json()
