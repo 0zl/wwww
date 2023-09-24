@@ -1,4 +1,4 @@
-import asyncio, aioredis, aiohttp, json, time, random
+import asyncio, aioredis, aiohttp, json, time, random, requests
 from aioredis.client import PubSub
 from modules.shared_cmd_options import cmd_opts
 from modules import shared
@@ -76,28 +76,25 @@ class RDSClient:
     
     async def request_api(self, task, params, method, chan_name, request_id):
         url = f'http://127.0.0.1:{cmd_opts.port}/sdapi/v1{task}'
-        
+
         try:
-            async with aiohttp.ClientSession() as session:
-                if method == 'GET':
-                    async with session.get(url, params=params) as resp:
-                        r = resp
-                elif method == 'POST':
-                    async with session.post(url, json=params) as resp:
-                        r = resp
-                else:
-                    async with session.get(url, params=params) as resp:
-                        r = resp
-                
-                if r.status == 200:
-                    data = await r.json()
-                    print(data)
-                    await self.send_data(data, True, request_id, chan_name)
-                else:
-                    data = await r.text()
-                    await self.send_data(data, False, request_id, chan_name)
+            if method == 'GET':
+                r = await requests.get(url, params=params)
+            elif method == 'POST':
+                r = await requests.post(url, json=params)
+            else:
+                r = await requests.get(url, params=params)
+            
+            if r.status_code == 200:
+                data = r.json()
+                self.send_data(data, True, request_id, chan_name)
+            else:
+                data = r.text()
+                self.send_data(data, False, request_id, chan_name)
         except Exception as e:
-            await self.send_data(str(e), False, request_id, chan_name)
+            self.send_data(str(e), False, request_id, chan_name)
+
+        print(f'chan_name: {chan_name}, rid: {request_id}')
     
     async def handle_global_call(self, msg: PubSub):
         if msg['channel'] != self.global_chan:
