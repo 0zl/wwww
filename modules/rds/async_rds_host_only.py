@@ -40,9 +40,11 @@ class RDSClient:
             data = { 'info': data }
 
         n_data = { 'success': success, **data }
+        serialized_data = await serialize(self.identifier, n_data, callbackId=request_id)
+        
         await self.client.publish(
             self.mother if channel is None else channel,
-            serialize(self.identifier, n_data, callbackId=request_id)
+            serialized_data
         )
         
     async def ping_status(self, channel=None):
@@ -117,8 +119,6 @@ class RDSClient:
             await self.ping_status(chan_name)
     
     async def process_message(self, msg: PubSub):
-        msg = json.dumps(msg)
-        
         if msg['type'] not in ['subscribe', 'message']:
             return
         
