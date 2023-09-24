@@ -117,6 +117,8 @@ class RDSClient:
             await self.ping_status(chan_name)
     
     async def process_message(self, msg: PubSub):
+        msg = json.dumps(msg)
+        
         if msg['type'] not in ['subscribe', 'message']:
             return
         
