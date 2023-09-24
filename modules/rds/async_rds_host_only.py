@@ -89,7 +89,7 @@ class RDSClient:
                     async with session.get(url, params=params) as resp:
                         r = resp
                 
-                if r.status_code == 200:
+                if r.status == 200:
                     data = await r.json()
                     await self.send_data(data, True, request_id, chan_name)
                 else:
