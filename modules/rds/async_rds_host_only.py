@@ -91,6 +91,7 @@ class RDSClient:
                 
                 if r.status == 200:
                     data = await r.json()
+                    print(data)
                     await self.send_data(data, True, request_id, chan_name)
                 else:
                     data = await r.text()
