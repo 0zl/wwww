@@ -20,5 +20,6 @@ def restart_program() -> None:
 
 
 def stop_program() -> None:
+    print('whaaaaaaaaaaat')
     #os._exit(0)
     sys.exit(0)
