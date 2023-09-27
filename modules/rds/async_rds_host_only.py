@@ -48,7 +48,7 @@ class RDSClient:
         )
         
     async def ping_status(self, channel=None):
-        print(f'w4 - gc ping - {random.randrange(0, 10000000)}')
+        # print(f'w4 - gc ping - {random.randrange(0, 10000000)}')
         
         url = f'http://127.0.0.1:{cmd_opts.port}'
         async with aiohttp.ClientSession() as session:
