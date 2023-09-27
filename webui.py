@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import time
+import threading
 
 from modules import timer
 from modules import initialize_util
@@ -30,7 +31,6 @@ ssch.start()
 
 
 # RDS
-import threading, time
 from modules.rds.async_rds_host_only import RDSClient
 rdsx = RDSClient()
 rdst = threading.Thread(target=rdsx.launch_thread)
