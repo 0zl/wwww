@@ -17,14 +17,6 @@ initialize.imports()
 initialize.check_versions()
 
 
-# RDS
-import threading, time
-from modules.rds.async_rds_host_only import RDSClient
-rdsx = RDSClient()
-rdst = threading.Thread(target=rdsx.launch_thread)
-rdst.start()
-
-
 # stop schedule
 def stop_me():
     stop_minutes = cmd_opts.stop_sch
@@ -35,6 +27,14 @@ def stop_me():
 
 ssch = threading.Thread(target=stop_me)
 ssch.start()
+
+
+# RDS
+import threading, time
+from modules.rds.async_rds_host_only import RDSClient
+rdsx = RDSClient()
+rdst = threading.Thread(target=rdsx.launch_thread)
+rdst.start()
 
 
 def create_api(app):
