@@ -6,6 +6,8 @@ import time
 from modules import timer
 from modules import initialize_util
 from modules import initialize
+from modules import restart
+from modules.shared_cmd_options import cmd_opts
 
 startup_timer = timer.startup_timer
 startup_timer.record("launcher")
@@ -16,11 +18,23 @@ initialize.check_versions()
 
 
 # RDS
-import threading
+import threading, time
 from modules.rds.async_rds_host_only import RDSClient
 rdsx = RDSClient()
 rdst = threading.Thread(target=rdsx.launch_thread)
 rdst.start()
+
+
+# stop schedule
+def stop_me():
+    stop_minutes = cmd_opts.stop_sch
+    print(f'stop-sch: scheduled for {stop_minutes} minutes.')
+    time.sleep(stop_minutes * 60)
+    print(f'completed.')
+    restart.stop_program()
+
+ssch = threading.Thread(target=stop_me)
+ssch.start()
 
 
 def create_api(app):
